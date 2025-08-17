@@ -1,20 +1,23 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
+const express = require('express');
+const dotenv = require('dotenv');
+const patientRoutes = require('./routes/patientRoutes'); // Import router
 
+dotenv.config();
 const app = express();
-const PORT = 5000; // backend akan run kat http://localhost:5000
 
 // Middleware
-app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
-// Route test
-app.get("/", (req, res) => {
-  res.send("Backend running successfully 🚀");
+// Use routes
+app.use('/api/patients', patientRoutes);
+
+// Default route
+app.get('/', (req, res) => {
+  res.send('API is running...');
 });
 
-// Start server
+// Run server
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`✅ Server running on http://localhost:${PORT}`);
 });
